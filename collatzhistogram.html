@@ -7,41 +7,103 @@
   <body>
     <h2>Collatz by histogram</h2>
     <br>
-    An integer can be represented in binary notation. The binary notation is a finite string of 1's and 0's. <br>
-    An alternate description of the Collatz sequence is "next element is one plus the previous element multiplied then remove the
-    trailing zeroes". Multiplying by 3 is achievable by shifting the previous element up one and adding to the unshifted prior
-    value, and the "one plus" part achievable by setting the lsb of the shifted number to 1. <br>
-    A binary formatted number can be recorded as a set of pairs of integers listing the number of contiguous ones and the number of
-    zeroes separating that group of ones from the next more significant group. An example: <br>
-    <code>1593<sub>10</sub>= 11000111001<sub>2</sub>= 1:2,3:3,2:0</code> where 0 marks that pairing is the most significant one.<br>
+    An integer can be represented in binary notation. The binary notation is a
+    finite string of 1's and 0's. <br>
+    <br>
+    An alternate description of the Collatz sequence is "next element is one
+    plus the previous element multiplied then remove the trailing zeroes".
+    Multiplying by 3 is achievable by shifting the previous element up one and
+    adding to the unshifted prior value, and the "one plus" part achievable by
+    setting the lsb of the shifted number to 1. The Collatz conjecture is that
+    regardless of initial value a Collatz sequence will go to 1 in a finite
+    number of steps.<br>
+    <br>
+    A binary formatted number can be recorded as a set of pairs of integers
+    listing the number of contiguous ones and the number of zeroes separating
+    that group of ones from the next more significant group. An example: <br>
+    <code>1593<sub>10</sub>= 11000111001<sub>2</sub>= 1:2,3:3,2:0</code> where 0
+    marks that pairing as the most significant one.<br>
     <code>1599<sub>10</sub>= 11000111111<sub>2</sub>= 6:3,2:0.</code><br>
     Introducing some Notation:<br>
     n:z is a 'n' contiguous ones paired with 'z' contiguous zeroes. <br>
     N(x)= number of pairs whose 'number of ones' equals x.<br>
     Z(x) = number of pairs whose 'number of zeroes' equals x.<br>
     <br>
-    The Collatz conjecture as described herein says that the Collatz sequence yields a single pair whose value is 1:0 (=1<sub>10</sub>)
-    in a finite number of steps regardless of the value initial value. Alternately worded that after some finite number of steps
-    N(1)=1, N(&gt;1)=0.<br>
+    The Collatz conjecture as described herein says that the Collatz sequence
+    yields a single pair whose value is 1:0 (=1<sub>10</sub>) in a finite number
+    of steps regardless of the value initial value. Alternately worded that
+    after some finite number of steps N(1)=1, N(&gt;1)=0.<br>
     <br>
-    The conjecture is proven by noting all the finite possible cases of transformations of the set of N(x),Z(x) values per each
-    step, and showing how the sum of the N(x) values over all x increases and decreases as the sequence is followed in such a
-    fashion that it becomes 1 in a finite number of steps. <br>
+    The conjecture is proven by noting all the finite possible cases of
+    transformations of the set of N(x),Z(x) values per each step, and showing
+    how the sum of the N(x) values over all x increases and decreases as the
+    sequence is followed in such a fashion that it becomes 1 in a finite number
+    of steps. <br>
     <br>
-    For our example number of 1593<sub>10</sub> the array of N(x) values in ascending order (starting at 1) is: 1,1,1. Note that the
-    histogram is not unique, different numbers can have the same histogram of N values.<br>
+    For our example number of 1593<sub>10</sub> the array of N(x) values in
+    ascending order (starting at 1) is: 1,1,1. Note that the N() histogram is
+    not unique, different numbers can have the same histogram of N values.<br>
     <br>
-    There are two special pairs: the most significant one, whose number of zeros is 0 or otherwise irrelevant; the least significant
-    one, which suffers a subset of the cases that intermediate pairs do. For conciseness I will call the least significant pair the
-    trailing group, the most significant group the leading group.<br>
+    There are two special pairs: the most significant one, whose number of zeros
+    is 0 or otherwise irrelevant; and the least significant one, which suffers a
+    subset of the cases that intermediate pairs do. For conciseness I will call
+    the least significant pair the trailing pair, the most significant pair the
+    leading pair. <br>
     <br>
-    As a warmup exercise we will use these two groups to show that the Collatz sequence is bounded. <br>
-    The shift operation (part of the 'times 3' step) requires one more bit to represent than the prior element. If the adding
-    operation carries into that new bit then an additional bit over the prior element is needed to represent the prior to clipping
-    the zeros intermediate calculation. Since all elements are odd, and the shift always brings in a 1 to the lsb the sum always
-    yields at least one zero in the ls position. So far that is a net increase of at most 1 bit. The sum at may produce more zero
-    lsbs beyond the mandatory one. <br>
-    Let us focus on the trailing group. There are just a few unique cases:<br>
+    For values of N are interesting:<br>
+    <ol>
+      <li>N(1), the number of isolated 1 bits.</li>
+      <li>N(2), the number of isolated pairs of 1 bits.</li>
+      <li> The sum of all remaining N's: Nother.</li>
+      <li>The sum of all of the above: Ntotal.</li>
+    </ol>
+    <p>We will explore how the above numbers change at each step of the sequence.
+    </p>
+    <hr><br>
+    <hr>cases like <em>11</em>010101<em>00</em> <br>
+    <br>
+    x1101010100<br>
+    1101010100x<br>
+    x01111111?x<br>
+    <br>
+    'r' Contiguous sets of such 1:1 pairs (r==3 in our example) results in
+    reduction by r of N(1), increase of 1 in one of N(2r+1) or N(2r+2) for a net
+    decrease in Ntotal of r-1.<br>
+    Other changes can be attributed to the non 1:1 groups bracketing the
+    sequence.<br>
+    <br>
+    x110100<br>
+    110100x<br>
+    x0111?x<br>
+    <br>
+    Case 'r'==1 is not special.<br>
+    <hr>case of multiple 1:1 trailing, r contiguous 1:1<br>
+    x110101<br>
+    1101011<br>
+    x100000<br>
+    N(1) reduced by at least r. other N(x)'s change by 'moving down', Ntotal
+    reduced by 1 or more.cases of trailing pair is single 1:1<br>
+    <br>
+    1101<br>
+    1011<br>
+    1000<br>
+    Case 'r'==1 is not special.<br>
+    <hr>Case well isolated k:*, isolated means pair beneath it has z&gt;2, and
+    its own z&gt;2<br>
+    <br>
+    x00011111111000x<br>
+    00011111111000xy<br>
+    x010111111010???<br>
+    <br>
+    N(1) increased by 2, N(k) reduced by one N(k-2) increased by 1 <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    Let us focus on the trailing pair. There are just a few unique cases:<br>
+    (in this table and all subsequent numbers 'x' refers to an irrelevant digit
+    for the particular pattern, it is not the same x as associated numbers)<br>
     <br>
     <table border="1">
       <thead>
@@ -82,7 +144,7 @@
           <td style="text-align: right; vertical-align: bottom; background-color: white;"><i>x1</i>0111</td>
         </tr>
         <tr>
-          <td>shifted</td>
+          <td>shifted, add 1</td>
           <td style="text-align: right; vertical-align: bottom; background-color: white;"><i>x1</i>0011</td>
           <td style="text-align: right; vertical-align: bottom; background-color: white;"><i>x1</i>00111</td>
           <td style="text-align: right; vertical-align: bottom; background-color: white;"><i>x1</i>001111</td>
@@ -127,7 +189,7 @@
           <td style="text-align: right; vertical-align: bottom; background-color: white;">2:&gt;1</td>
         </tr>
         <tr>
-          <td><br>
+          <td>Note<br>
           </td>
           <td><br>
           </td>
@@ -145,11 +207,13 @@
       </tbody>
     </table>
     <br>
-    Focusing in on the 1:1 pair, if it is followed by another 1:1 pair then an additional shift will occur: <br>
-    xx0101<br>
-    x01011<br>
-    xx0000<br>
-    The number of right shifts is at least 2 times the number of adjacent trailing 1:1 pairs.<br>
+    Focusing in on the 1:1 pair, if it is followed by another 1:1 pair then an
+    additional shift will occur: <br>
+    x10101<br>
+    101011<br>
+    x00000<br>
+    The number of right shifts is at least 2 times the number of adjacent
+    trailing 1:1 pairs.<br>
     <br>
     <br>
     <br>
