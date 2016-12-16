@@ -7,28 +7,23 @@
   <body>
     <h2>Collatz by histogram</h2>
     <br>
-    An integer can be represented in binary notation. The binary notation is a
-    finite string of 1's and 0's. <br>
-    <br>
-    An alternate description of the Collatz sequence is "next element is one
-    plus the previous element multiplied then remove the trailing zeroes".
-    Multiplying by 3 is achievable by shifting the previous element up one and
-    adding to the unshifted prior value, and the "one plus" part achievable by
-    setting the lsb of the shifted number to 1. The Collatz conjecture is that
-    regardless of initial value a Collatz sequence will go to 1 in a finite
-    number of steps.<br>
-    <br>
-    A binary formatted number can be recorded as a set of pairs of integers
-    listing the number of contiguous ones and the number of zeroes separating
-    that group of ones from the next more significant group. An example: <br>
-    <code>1593<sub>10</sub>= 11000111001<sub>2</sub>= 1:2,3:3,2:0</code> where 0
-    marks that pairing as the most significant one.<br>
+
+    An integer can be represented in binary notation. The binary notation is a finite string of 1's and 0's. <br>
+    An alternate description of the Collatz sequence is "next element is one plus the previous element multiplied by 3, then remove
+    the trailing zeroes". Multiplying by 3 is achievable by shifting the previous element up one and adding to the unshifted prior
+    value, and the "one plus" part achievable by setting the lsb of the shifted number to 1. <br>
+    <pre>C<sub>n+1</sub> = 1+C<sub>n</sub>+2*C<sub>n</sub> , then divide by 2 until the result is odd.</pre>
+    A binary formatted number can be recorded as a set of pairs of integers listing the number of contiguous ones and the number of
+    zeroes separating that group of ones from the next more significant group. An example: <br>
+    <code>1593<sub>10</sub>= 11000111001<sub>2</sub>= 1:2,3:3,2:0</code> where 0 marks that pairing is the most significant one.<br>
     <code>1599<sub>10</sub>= 11000111111<sub>2</sub>= 6:3,2:0.</code><br>
     Introducing some Notation:<br>
-    n:z is a 'n' contiguous ones paired with 'z' contiguous zeroes. <br>
+    n:z is 'n' contiguous ones paired with 'z' contiguous zeroes. <br>
     N(x)= number of pairs whose 'number of ones' equals x.<br>
     Z(x) = number of pairs whose 'number of zeroes' equals x.<br>
     <br>
+
+
     The Collatz conjecture as described herein says that the Collatz sequence
     yields a single pair whose value is 1:0 (=1<sub>10</sub>) in a finite number
     of steps regardless of the value initial value. Alternately worded that
@@ -50,7 +45,7 @@
     the least significant pair the trailing pair, the most significant pair the
     leading pair. <br>
     <br>
-    For values of N are interesting:<br>
+    Four values of N are interesting:<br>
     <ol>
       <li>N(1), the number of isolated 1 bits.</li>
       <li>N(2), the number of isolated pairs of 1 bits.</li>
@@ -71,7 +66,7 @@
     decrease in Ntotal of r-1.<br>
     Other changes can be attributed to the non 1:1 groups bracketing the
     sequence.<br>
-    <br>
+\    <br>
     x110100<br>
     110100x<br>
     x0111?x<br>
@@ -84,6 +79,7 @@
     N(1) reduced by at least r. other N(x)'s change by 'moving down', Ntotal
     reduced by 1 or more.cases of trailing pair is single 1:1<br>
     <br>
+
     1101<br>
     1011<br>
     1000<br>
@@ -96,12 +92,23 @@
     x010111111010???<br>
     <br>
     N(1) increased by 2, N(k) reduced by one N(k-2) increased by 1 <br>
+    There are two notable pairs: the most significant one, whose number of zeros is 0 or otherwise irrelevant; the least significant
+    one which is where the '+1' is applied. These two pairs suffer a subset of the cases that intermediate pairs do. For conciseness
+    I will call the least significant pair the trailing group, the most significant group the leading group.<br>
     <br>
     <br>
     <br>
     <br>
-    <br>
-    Let us focus on the trailing pair. There are just a few unique cases:<br>
+
+    <hr>
+    <h4>Appendix I</h4>
+    As a warmup exercise we will use these two groups to show that the Collatz sequence is bounded. <br>
+    The shift operation (part of the 'times 3' step) requires one more bit to represent than the prior element. If the adding
+    operation carries into that new bit then an additional bit over the prior element is needed to represent the prior to clipping
+    the zeros intermediate calculation. Since all elements are odd, and the shift always brings in a 1 to the lsb the sum always
+    yields at least one zero in the ls position. So far that is a net increase of at most 1 bit. The sum at may produce more zero
+    lsbs beyond the mandatory one. <br>
+    Let us focus on the trailing group. There are just a few unique cases:
     (in this table and all subsequent numbers 'x' refers to an irrelevant digit
     for the particular pattern, it is not the same x as associated numbers)<br>
     <br>
