@@ -3,18 +3,22 @@
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>collatzhistogram</title>
-  </head>
+    <style title="number" type="text/css">
+td.number {
+  text-align: right;
+  font-variant: small-caps;
+  text-transform: uppercase;
+}
+
+</style></head>
   <body>
     <h2>Collatz by histogram</h2>
-    <br>
-
-    An integer can be represented in binary notation. The binary notation is a finite string of 1's and 0's. <br>
-    An alternate description of the Collatz sequence is "next element is one plus the previous element multiplied by 3, then remove
-    the trailing zeroes". Multiplying by 3 is achievable by shifting the previous element up one and adding to the unshifted prior
-    value, and the "one plus" part achievable by setting the lsb of the shifted number to 1. <br>
+    An alternate description of the Collatz sequence is "starting with an odd number the next element is one plus the previous element multiplied by 3, then remove the
+    trailing zeroes". Multiplying by 3 is achievable by shifting the previous element up one and adding to the unshifted prior value, and the "one plus" part achievable
+    by setting the lsb of the shifted number to 1. <br>
     <pre>C<sub>n+1</sub> = 1+C<sub>n</sub>+2*C<sub>n</sub> , then divide by 2 until the result is odd.</pre>
-    A binary formatted number can be recorded as a set of pairs of integers listing the number of contiguous ones and the number of
-    zeroes separating that group of ones from the next more significant group. An example: <br>
+    An integer can be represented in binary notation. The binary notation is a finite string of 1's and 0's. A binary formatted number can be recorded as a set of pairs
+    of integers listing the number of contiguous ones and the number of zeroes separating that group of ones from the next more significant group. An example: <br>
     <code>1593<sub>10</sub>= 11000111001<sub>2</sub>= 1:2,3:3,2:0</code> where 0 marks that pairing is the most significant one.<br>
     <code>1599<sub>10</sub>= 11000111111<sub>2</sub>= 6:3,2:0.</code><br>
     Introducing some Notation:<br>
@@ -22,28 +26,17 @@
     N(x)= number of pairs whose 'number of ones' equals x.<br>
     Z(x) = number of pairs whose 'number of zeroes' equals x.<br>
     <br>
-
-
-    The Collatz conjecture as described herein says that the Collatz sequence
-    yields a single pair whose value is 1:0 (=1<sub>10</sub>) in a finite number
-    of steps regardless of the value initial value. Alternately worded that
-    after some finite number of steps N(1)=1, N(&gt;1)=0.<br>
+    The Collatz conjecture says that the Collatz sequence yields a single pair whose value is 1:0 (=1<sub>10</sub>) in a finite number of steps regardless of the
+    initial value. Alternately worded is that after some finite number of steps N(1)=1, N(&gt;1)=0.<br>
     <br>
-    The conjecture is proven by noting all the finite possible cases of
-    transformations of the set of N(x),Z(x) values per each step, and showing
-    how the sum of the N(x) values over all x increases and decreases as the
-    sequence is followed in such a fashion that it becomes 1 in a finite number
-    of steps. <br>
+    The conjecture is herein proven by noting all the finite possible cases of transformations of the set of N(x),Z(x) values per each step, and showing how the sum of
+    the N(x) values over all x increases and decreases as the sequence is followed in such a fashion that it becomes 1 in a finite number of steps. <br>
     <br>
-    For our example number of 1593<sub>10</sub> the array of N(x) values in
-    ascending order (starting at 1) is: 1,1,1. Note that the N() histogram is
-    not unique, different numbers can have the same histogram of N values.<br>
+    For our example number of 1593<sub>10</sub> the array of N(x) values in ascending order (starting at 1) is: 1,1,1. Note that the N() histogram is not unique,
+    different numbers can have the same histogram of N values.<br>
     <br>
-    There are two special pairs: the most significant one, whose number of zeros
-    is 0 or otherwise irrelevant; and the least significant one, which suffers a
-    subset of the cases that intermediate pairs do. For conciseness I will call
-    the least significant pair the trailing pair, the most significant pair the
-    leading pair. <br>
+    There are two special pairs: the most significant one, whose number of zeros is 0 or otherwise irrelevant; and the least significant one, which suffers a subset of
+    the cases that intermediate pairs do. For conciseness I will call the least significant pair the trailing pair, the most significant pair the leading pair. <br>
     <br>
     Four values of N are interesting:<br>
     <ol>
@@ -52,65 +45,216 @@
       <li> The sum of all remaining N's: Nother.</li>
       <li>The sum of all of the above: Ntotal.</li>
     </ol>
-    <p>We will explore how the above numbers change at each step of the sequence.
-    </p>
-    <hr><br>
-    <hr>cases like <em>11</em>010101<em>00</em> <br>
+    <p>We will explore how the above numbers change at each step of the sequence. </p>
+    <hr>The finite number of cases is the product of: [1,2,&gt;2] zeroes followed by [1,2,&gt;2] ones followed by [1,2,&gt;2] zeroes. The leading and trailing groups
+    are a subset of these.<br>
+    This breakdown is adequate as multiplying by 3 adds at most 2 bits to a number, a leading 10 can form, adding a 1 (either because it is the trailing group or
+    because the group below it was only spaced off by 1 zero) will not cause a 3rd bit to be needed, at most the leading bits become 11. <br>
     <br>
-    x1101010100<br>
-    1101010100x<br>
-    x01111111?x<br>
+    <hr>First examine groups that have more than 2 zeroes on each side. That means that the group below it will not carry into it, and that it won't carry into the
+    group above.<br>
+    The table below has columns for 1 through 4 ones in a row, and a column for w&gt;2. The 3 and 4 columns demonstrate the pattern expressed by the w&gt;2 column. <br>
+    The 'changes' row show how the counts of 'groups of length n' change.<br>
     <br>
-    'r' Contiguous sets of such 1:1 pairs (r==3 in our example) results in
-    reduction by r of N(1), increase of 1 in one of N(2r+1) or N(2r+2) for a net
-    decrease in Ntotal of r-1.<br>
-    Other changes can be attributed to the non 1:1 groups bracketing the
-    sequence.<br>
-\    <br>
-    x110100<br>
-    110100x<br>
-    x0111?x<br>
+    <table border="1">
+      <caption>isolated group </caption>
+      <tbody>
+        <tr>
+          <td>before</td>
+          <td class="number">0001000</td>
+          <td class="number">00011000</td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">000111000</td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">0001111000</td>
+          <td>w&gt;2</td>
+        </tr>
+        <tr>
+          <td>after</td>
+          <td class="number">00110xx</td>
+          <td class="number">010010xx</td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">0101010xx</td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">01011010xx</td>
+          <td>010[w-2]010XX<br>
+          </td>
+        </tr>
+        <tr>
+          <td>changes</td>
+          <td>N1--<br>
+            <br>
+            N2++<br>
+          </td>
+          <td>N2--<br>
+            <br>
+            N1+=2<br>
+          </td>
+          <td style="text-align: right; background-color: #eeeeee;">N3--<br>
+            N1++<br>
+            N1+=2</td>
+          <td style="text-align: right; background-color: #eeeeee;">N4--<br>
+            N2++<br>
+            N1+=2</td>
+          <td>Nw--<br>
+            Nw-2++<br>
+            N1+=2</td>
+        </tr>
+      </tbody>
+    </table>
     <br>
-    Case 'r'==1 is not special.<br>
-    <hr>case of multiple 1:1 trailing, r contiguous 1:1<br>
-    x110101<br>
-    1101011<br>
-    x100000<br>
-    N(1) reduced by at least r. other N(x)'s change by 'moving down', Ntotal
-    reduced by 1 or more.cases of trailing pair is single 1:1<br>
+    Without a carry in from a lower group the msbs of the group under consideration to the left of the highest 1 are either 01 or 10.<br>
     <br>
-
-    1101<br>
-    1011<br>
-    1000<br>
-    Case 'r'==1 is not special.<br>
-    <hr>Case well isolated k:*, isolated means pair beneath it has z&gt;2, and
-    its own z&gt;2<br>
+    If there were instead exactly 2 zeroes trailing our group then the 2 msbs of the lower group would append to the lower side of the original group. The 'adjustments'
+    row in the table below is alterations from the 'changes' row in the table above, the changes to the 'changes' when comparing the tables.<br>
     <br>
-    x00011111111000x<br>
-    00011111111000xy<br>
-    x010111111010???<br>
+    <table border="1">
+      <caption>group below has exactly 2 zeroes</caption>
+      <tbody>
+        <tr>
+          <td>after</td>
+          <td class="number">0011xx</td>
+          <td class="number">01001xx</td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">010101xx</td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">0101101xx</td>
+          <td class="number">010[w-2]01XX </td>
+        </tr>
+        <tr>
+          <td>01<br>
+          </td>
+          <td class="number">001101 </td>
+          <td class="number">0100101 </td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">01010101 </td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">010110101 </td>
+          <td class="number">010[w-2]0101 </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td colspan="5" rowspan="1">N counts same as previous table</td>
+        </tr>
+        <tr>
+          <td>10<br>
+          </td>
+          <td class="number">001110 </td>
+          <td class="number">0100110 </td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">01010110 </td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">010110110 </td>
+          <td class="number">010[w-2]0110 </td>
+        </tr>
+        <tr>
+          <td>adjustments</td>
+          <td>N3++<br>
+            N2--<br>
+            N1--</td>
+          <td>N2++<br>
+            <br>
+            N1--</td>
+          <td style="text-align: right; background-color: #eeeeee;">N2++<br>
+            <br>
+            N1--</td>
+          <td style="text-align: right; background-color: #eeeeee;">N2++<br>
+            <br>
+            N1--</td>
+          <td>N2++<br>
+            <br>
+            N1-- </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td colspan="5" rowspan="1">The combo N2++,N1-- above is due to what was a solitary trailing 1<br>
+            &nbsp;merging with the new leading solitary 1 of the trailing group<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <br>
-    N(1) increased by 2, N(k) reduced by one N(k-2) increased by 1 <br>
-    There are two notable pairs: the most significant one, whose number of zeros is 0 or otherwise irrelevant; the least significant
-    one which is where the '+1' is applied. These two pairs suffer a subset of the cases that intermediate pairs do. For conciseness
-    I will call the least significant pair the trailing group, the most significant group the leading group.<br>
+    If there was only one trailing zero then we get<br>
     <br>
+    <table border="1">
+      <caption>group below has exactly 1 zero</caption>
+      <tbody>
+        <tr>
+          <td>before</td>
+          <td class="number">0010</td>
+          <td class="number">0110</td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">01110</td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">011110</td>
+          <td class="number">0[w]0 </td>
+        </tr>
+        <tr>
+          <td>3x | 1<br>
+          </td>
+          <td class="number">00111 </td>
+          <td class="number">010011 </td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">0101011 </td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">01011011 </td>
+          <td class="number">010[w-2]011</td>
+        </tr>
+        <tr>
+          <td>adjustments<br>
+          </td>
+          <td colspan="5" rowspan="1">same as 10 group of table for z=2</td>
+        </tr>
+        <tr>
+          <td>3x + 1<br>
+          </td>
+          <td class="number">01000 </td>
+          <td class="number">010100 </td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">0101100 </td>
+          <td style="text-align: right; background-color: #eeeeee;" class="number">01011100 </td>
+          <td class="number">010[w-1]00 </td>
+        </tr>
+        <tr>
+          <td colspan="1" rowspan="2">adjustments<br>
+          </td>
+          <td>N1++<br>
+            <br>
+            N2--</td>
+          <td>same</td>
+          <td style="text-align: right; background-color: #eeeeee;"><br>
+          </td>
+          <td style="text-align: right; background-color: #eeeeee;"><br>
+            <br>
+          </td>
+          <td>Nw-1++ <br>
+            Nw-2--<br>
+            N1-- </td>
+        </tr>
+        <tr>
+          <td colspan="1" rowspan="1">net no <br>
+            change</td>
+          <td colspan="1"><br>
+          </td>
+          <td rowspan="1" colspan="3">Nw-1 instead of Nw-2 and <br>
+            one less additional N1<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <br>
+    Note:<br>
+    <ol>
+      <li>In most cases N1 increase by 1 or 2, when it decreases by one N2 increases by one</li>
+      <li>Nw decreases and Nw-2 or Nw-1 increases, histogram shifts contents towards 1 without decreasing the total above 2</li>
+      <li>N2 increases either at the expense of an N1 or N3 or N4.</li>
+      <li>N2 normally decreases by 1, so most of the increases are not an increase in N total.</li>
+    </ol>
+    <p>Not shown in the case so far is when there is a stream of 101010101 ... either it becomes 1111111 so N(2*r) increases by one while N1 decreases by r or it
+      becomes 100000, and that 1 sometimes appends a higher group to make some Nw-&gt;Nw+1 while N1 decreases by (r+1).</p>
+    So, N total only increases when N1 increases. All other means of increasing Nw requires decreasing 1 other Nw or a bunch of N1's.<br>
     <br>
+    We haven't proven guaranteed reduction over time.<br>
+    What has been left out is that Z's also mutate, long ones shrinking with the exception of when a 1010101 series becomes 100000. <br>
+    Once we get that figured out we will see that the Z's disappear except for Z1's at a rate that they mate with N1's to become 1010101 which shrink the total number
+    drastically.<br>
     <br>
-
     <hr>
     <h4>Appendix I</h4>
     As a warmup exercise we will use these two groups to show that the Collatz sequence is bounded. <br>
-    The shift operation (part of the 'times 3' step) requires one more bit to represent than the prior element. If the adding
-    operation carries into that new bit then an additional bit over the prior element is needed to represent the prior to clipping
-    the zeros intermediate calculation. Since all elements are odd, and the shift always brings in a 1 to the lsb the sum always
-    yields at least one zero in the ls position. So far that is a net increase of at most 1 bit. The sum at may produce more zero
-    lsbs beyond the mandatory one. <br>
-    Let us focus on the trailing group. There are just a few unique cases:
-    (in this table and all subsequent numbers 'x' refers to an irrelevant digit
-    for the particular pattern, it is not the same x as associated numbers)<br>
+    The shift operation (part of the 'times 3' step) requires one more bit to represent than the prior element. If the adding operation carries into that new bit then
+    an additional bit over the prior element is needed to represent the prior to clipping the zeros intermediate calculation. Since all elements are odd, and the shift
+    always brings in a 1 to the lsb the sum always yields at least one zero in the ls position. So far that is a net increase of at most 1 bit. The sum at may produce
+    more zero lsbs beyond the mandatory one. <br>
+    Let us focus on the trailing group. There are just a few unique cases: (in this table and all subsequent numbers 'x' refers to an irrelevant digit for the
+    particular pattern, it is not the same x as associated numbers)<br>
     <br>
     <table border="1">
       <thead>
@@ -214,13 +358,11 @@
       </tbody>
     </table>
     <br>
-    Focusing in on the 1:1 pair, if it is followed by another 1:1 pair then an
-    additional shift will occur: <br>
+    Focusing in on the 1:1 pair, if it is followed by another 1:1 pair then an additional shift will occur: <br>
     x10101<br>
     101011<br>
     x00000<br>
-    The number of right shifts is at least 2 times the number of adjacent
-    trailing 1:1 pairs.<br>
+    The number of right shifts is at least 2 times the number of adjacent trailing 1:1 pairs.<br>
     <br>
     <br>
     <br>
