@@ -14,31 +14,80 @@ td.number {
   <body>
     <h2>Collatz by histogram</h2>
     An alternate description of the Collatz sequence is "starting with an odd number the next element is one plus the previous element multiplied by 3, then remove the
-    trailing zeroes". Multiplying by 3 is achievable by shifting the previous element up one and adding to the unshifted prior value, and the "one plus" part achievable
-    by setting the lsb of the shifted number to 1. <br>
-    <pre>C<sub>n+1</sub> = 1+C<sub>n</sub>+2*C<sub>n</sub> , then divide by 2 until the result is odd.</pre>
+    trailing zeroes". <br>
+    <pre>C<sub>n+1</sub> = 1+C<sub>n</sub>+2*C<sub>n</sub> , then divide by 2 until the result is odd (discard all factors of 2).</pre>
+    Note for hardware implementation: Multiplying by 3 is achievable by shifting the previous element up one and adding to the unshifted prior value, and the "one plus"
+    part achievable by setting the lsb of the shifted number to 1. <br>
+    <br>
     An integer can be represented in binary notation. The binary notation is a finite string of 1's and 0's. A binary formatted number can be recorded as a set of pairs
     of integers listing the number of contiguous ones and the number of zeroes separating that group of ones from the next more significant group. An example: <br>
-    <code>1593<sub>10</sub>= 11000111001<sub>2</sub>= 1:2,3:3,2:0</code> where 0 marks that pairing is the most significant one.<br>
-    <code>1599<sub>10</sub>= 11000111111<sub>2</sub>= 6:3,2:0.</code><br>
-    Introducing some Notation:<br>
-    n:z is 'n' contiguous ones paired with 'z' contiguous zeroes. <br>
-    N(x)= number of pairs whose 'number of ones' equals x.<br>
-    Z(x) = number of pairs whose 'number of zeroes' equals x.<br>
+    <code>1593<sub>10</sub>= 11000111001<sub>2</sub>=&nbsp; a single 1 followed by 2 zeroes followed by 3 1's, followed by 3 0's follwed by 2 1's</code><br>
+    <code>1599<sub>10</sub>= 11000111111<sub>2</sub>= shorthand: 6,3,2.</code><br>
     <br>
-    The Collatz conjecture says that the Collatz sequence yields a single pair whose value is 1:0 (=1<sub>10</sub>) in a finite number of steps regardless of the
-    initial value. Alternately worded is that after some finite number of steps N(1)=1, N(&gt;1)=0.<br>
+    Let us make a histogram of quantity of runs of each type.&nbsp; For our examples:<br>
+    1593: Ones[1,1,1] x Zeroes[0,1,1]<br>
+    1599: Ones[0,1,0,0,0,1] x Zeroes[0,0,1]<br>
     <br>
-    The conjecture is herein proven by noting all the finite possible cases of transformations of the set of N(x),Z(x) values per each step, and showing how the sum of
-    the N(x) values over all x increases and decreases as the sequence is followed in such a fashion that it becomes 1 in a finite number of steps. <br>
+    The Collatz conjecture says that the Collatz sequence yields a histogram: Ones[1] x Zeroes[].<br>
     <br>
-    For our example number of 1593<sub>10</sub> the array of N(x) values in ascending order (starting at 1) is: 1,1,1. Note that the N() histogram is not unique,
-    different numbers can have the same histogram of N values.<br>
+    Let us follow a set of ones that has so many zeroes to each side of it that we can ignore them for a few steps.<br>
+    <br>
+    <table border="1">
+      <tbody id="td.number">
+        <tr>
+          <td><br>
+          </td>
+          <td class="number">11111</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td class="number"><br>
+          </td>
+          <td class="number">1011101</td>
+          <td>#5's is reduced by 1<br>
+            #3's is increased by 1<br>
+            #1's is increased by 2</td>
+        </tr>
+        <tr>
+          <td class="number"><br>
+          </td>
+          <td class="number">100010111<br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td class="number"><br>
+          </td>
+          <td class="number"><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td class="number"><br>
+          </td>
+          <td class="number"><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td class="number"><br>
+          </td>
+          <td class="number"><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <br>
     There are two special pairs: the most significant one, whose number of zeros is 0 or otherwise irrelevant; and the least significant one, which suffers a subset of
     the cases that intermediate pairs do. For conciseness I will call the least significant pair the trailing pair, the most significant pair the leading pair. <br>
     <br>
-    Four values of N are interesting:<br>
+    Four values of Ones[] are interesting:<br>
     <ol>
       <li>N(1), the number of isolated 1 bits.</li>
       <li>N(2), the number of isolated pairs of 1 bits.</li>
@@ -363,7 +412,7 @@ td.number {
     101011<br>
     x00000<br>
     The number of right shifts is at least 2 times the number of adjacent trailing 1:1 pairs.<br>
-    <br>
+    <hr><br>
     <br>
     <br>
   </body>
