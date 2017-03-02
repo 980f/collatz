@@ -1,6 +1,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "memory.h"
+#include "cheaptricks.h"
 
 #define HISTO 0
 
@@ -25,24 +26,28 @@ void dumphisto(unsigned (&array)[32]){
 }
 
 #endif
-void printbits(unsigned C){
-  char zchar=' ';
+int printbits(unsigned C){
+  bool blanking=true;
+  int msb=-1;//horribly illegal value
 
   for(unsigned picker=32;picker-->0;){
     if(C&(1<<picker)){
       putchar('1');
-      zchar='0';
+      if(flagged(blanking)){
+        msb=1+picker;
+      }
     } else {
-      putchar(zchar);
+      putchar(blanking?' ':'0');
     }
     if((picker&3)==0){
       putchar(':');
     }
   }
+  return msb;
 }
 
-void analyze(unsigned C){
-  printbits(C);
+int analyze(unsigned C){
+  int bits=printbits(C);
 #if HISTO
   memset(Ones,0,sizeof(Ones));
   memset(Zeroes,0,sizeof(Ones));
@@ -64,27 +69,34 @@ void analyze(unsigned C){
   dumphisto(Ones);
   dumphisto(Zeroes);
 #endif
-  printf("\n");
+  printf("\t%d bits\n",bits);
+  return bits;
 }
 
-int main(int argc, char *argv[]){
-  printf("Number of bits in math: %d\n", 8*sizeof(unsigned));
-  int n=0;
-  unsigned C=40;
-  if(argc>1){
-    C=atoi(argv[1]);
-    C|=1; //we're supposed to be given an odd value.
-  }
-
+int collatzIterate(unsigned C){
+  unsigned n = 0;//number of iterations.
+  printf("%d\t",C);
   do {
     ++n;
-    analyze(C);
+    int bits=analyze(C);
     C+=1+(C<<1);
+    int trailers=0;
     while(!(C&1)){
+      ++trailers;
       C>>=1;
     }
+    printf("shift %d\t",trailers);
   } while(C>1);
   analyze(C);//final report
   printf("%d iterations\n",n);
   return n;
+}
+
+int main(int argc, char *argv[]){
+  printf("Number of bits in math: %lu\n", 8*sizeof(unsigned));
+
+  unsigned C=(argc>1)?atoi(argv[1]):40;
+  C|=1; //we're supposed to be given an odd value.
+
+  return collatzIterate(C);
 }

@@ -14,9 +14,9 @@ td.number {
 </style></head>
   <body>
     <h2>Collatz Series, proof of termination.</h2>
-    An alternate description of the Collatz sequence is "starting with an odd number the next element is one plus the previous element multiplied by 3, then remove the
-    trailing zeroes". <br>
-    <pre>C<sub>n+1</sub> = 1+C<sub>n</sub>+2*C<sub>n</sub> , then divide by 2 until the result is odd (discard all factors of 2).</pre>
+    An alternate description of the Collatz sequence is: "the next element is one plus 3 times the previous element, then remove the trailing zeroes". Additionally we
+    require the initial value to be odd.<br>
+    <pre>C<sub>0 </sub>is odd<br>C<sub>n+1</sub> = 1+C<sub>n</sub>+2*C<sub>n</sub> , then divide by 2 until the result is odd (discard all factors of 2).</pre>
     Note for hardware implementation: Multiplying by 3 is achievable by shifting the previous element up one and adding to the unshifted prior value, and the "one plus"
     part achievable by setting the lsb of the shifted number to 1. <br>
     <br>
@@ -25,237 +25,163 @@ td.number {
     The number of bits needed to represent a value in base 2 is ~1+log<sub>2</sub>(value). If the conjecture is true then in a finite number of steps the number of bits
     needed becomes 1.<br>
     <ol>
-      <li>Each cycle adds as many as 2 bits to the number, a multiply by 3 and adding one can at most (and only for one case) increase the number by a factor of 4.</li>
-      <li> Since the number is always odd, multiplying by 3 yields an odd value, adding the one makes the number even and at least one bit is removed each cycle. </li>
-      <li><br>
-      </li>
+      <li>The '1+3*' part of each cycle adds at most 2 bits to the number, a multiply by 3 and adding one can at most (and only for one case) increase the number by a factor of 4.</li>
+      <li> Since the number is always odd, multiplying by 3 yields an odd value, adding the one makes the number even and at least one bit is removed each cycle.</li><li>Hence the number of bits need for C<sub>n+1</sub> is at most 1+bits needed for C<sub>n</sub> </li>
     </ol>
-    Let there be w contiguous bits in the ls position, and z zeroes between that group and the next one:<br>
+    Let there be w contiguous bits in the ls position, and z zeroes between that group and the next one.<br>
     <table border="1" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
           <td>1.</td>
-          <td>value</td>
+          <td>C<sub>i</sub></td>
           <td>=</td>
-          <td> (2<sup>w</sup>-1)+2<sup>w+z</sup>(<em>rest of bits</em>)</td>
-          <td><em>rest of bits</em> is an odd number formed by removing the 'w' ls ones and the 'z' zeroes above them</td>
+          <td> 2<sup>w+z</sup>R<sub>i</sub> + (2<sup>w</sup>-1)</td>
+          <td>define <em>R<sub>i</sub></em> as the odd number formed by removing the 'w' ls ones and the 'z' zeroes above them</td>
         </tr>
         <tr>
           <td>2.</td>
-          <td>3*value</td>
+          <td>3*C<sub>i</sub></td>
           <td>=</td>
-          <td> 2<sup>w</sup>+2<sup>w+1</sup>-3+ (2<sup>w+z</sup>+2<sup>w+z+1</sup>)(<em>rest of bits</em>)</td>
-          <td>multiply by 3 via multiply by 2 and add to original</td>
+          <td> (2<sup>w+z+1</sup>+2<sup>w+z</sup>)R<sub>i</sub> + (2<sup>w+1</sup>+2<sup>w</sup>) - 3</td>
+          <td>multiply by 3 via multiply by 2 and add to original (multiple the -1 x 3 to get -3)</td>
         </tr>
         <tr>
           <td>3.</td>
-          <td style="text-align: left; vertical-align: top; background-color: white;" colspan="1" rowspan="5">3*value+1&nbsp;</td>
+          <td style="text-align: left; vertical-align: top; background-color: white;" colspan="1" rowspan="1">3*C<sub>i</sub>+1&nbsp;</td>
           <td>=</td>
-          <td> 2<sup>w</sup>+2<sup>w+1</sup>-2+ (2<sup>w+z</sup>+2<sup>w+z+1</sup>)(<em>rest of bits</em>)</td>
+          <td>(2<sup>w+z+1</sup>+2<sup>w+z</sup>)R<sub>i</sub> + 2<sup>w+1</sup> + 2<sup>w</sup> - 2 </td>
           <td>add the one to the term that was -3</td>
         </tr>
         <tr>
           <td><br>
-          </td>
+          </td><td rowspan="1"><br></td>
           <td>=</td>
-          <td> 2(2<sup>w-1</sup>+2<sup>w</sup>-1+ (2<sup>w+z-1</sup>+2<sup>w+z</sup>)(<em>rest of bits</em>))</td>
+          <td> 2( (2<sup>w+z</sup>+2<sup>w+z-1</sup>)R<sub>i</sub> + 2<sup>w</sup>+ 2<sup>w-1</sup> - 1 )</td>
           <td>factor out a 2</td>
         </tr>
-        <tr>
-          <td><br>
-          </td>
+        <tr><td><br></td><td colspan="4" rowspan="1">that expression is always even so we can always remove at least one trailing 0</td></tr><tr>
+          <td>4.<br>
+          </td><td rowspan="1">(3*C<sub>i</sub>+1)/2</td>
           <td>=</td>
-          <td>2(2<sup>w-1</sup>+2<sup>w</sup>-1+ 2<sup>w+z-1</sup>(<em>rest of bits</em>)+2<sup>w+z</sup>(<em>rest of bits</em>))</td>
-          <td>rearrange</td>
+          <td>&nbsp;2<sup>w+z</sup>R<sub>i</sub>+2<sup>w+z-1</sup>R<sub>i</sub>+ 2<sup>w</sup>+ 2<sup>w-1</sup> - 1</td>
+          <td>divide by 2 removes one lsb </td>
         </tr>
         <tr>
           <td><br>
-          </td>
+          </td><td rowspan="1"><br></td>
           <td>=</td>
-          <td>2(2<sup>w-1</sup>+ 2<sup>w+z-1</sup>(<em>rest of bits</em>) + 2<sup>w</sup>-1 + 2<sup>w+z</sup>(<em>rest of bits</em>))</td>
+          <td>2<sup>w-1</sup>+ 2<sup>w+z-1</sup>R<sub>i</sub> + 2<sup>w+z</sup>R<sub>i</sub>+2<sup>w</sup> - 1</td>
           <td><br>
           </td>
         </tr>
         <tr>
           <td><br>
-          </td>
+          </td><td><br></td>
           <td>=</td>
-          <td>2(2<sup>w-1</sup>+ 2<sup>w-1+z</sup>(<em>rest of bits</em>) + value)</td>
+          <td>2<sup>w-1</sup>+ 2<sup>w+z-1</sup>R<sub>i</sub> + C<sub>i</sub></td>
           <td><br>
           </td>
         </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td rowspan="1" colspan="4">that expression is always even so we can always remove at least one trailing 0</td>
-        </tr>
-        <tr>
-          <td>4.</td>
-          <td>remove one lsb</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>(3*value+1)/2</td>
-          <td>=</td>
-          <td>2<sup>w-1</sup>+ 2<sup>w-1+z</sup>(<em>rest of bits</em>) + value</td>
-          <td><br>
-          </td>
-        </tr>
+        
+        
+        
         <tr>
           <td>5.</td>
-          <td colspan="4" rowspan="1">if w = 1 <br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>(3*value+1)/2</td>
-          <td>=</td>
-          <td>1 + 2<sup>z</sup>(<em>rest of bits</em>) + value</td>
-          <td>apply w=1 to #4<br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>(1 + value) + 2<sup>z</sup>(<em>rest of bits</em>) </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td colspan="4" rowspan="1">value is odd so (1+value) is even, z&gt;=1 so the 2<sup>z</sup> term is even, so the expression is even and we can remove another
-            bit.<br>
-            <br>
-            value+1 may have more than one trailing zero so we might be able to remove up to z more trailing zeroes.</td>
-        </tr>
-        <tr>
-          <td>6.</td>
           <td colspan="4" rowspan="1">if w&gt;1 (and z as per its definition is &gt;=1)</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td>(3*value+1)/2</td>
+          <td>(3*C<sub>i</sub>+1)/2</td>
           <td>=</td>
-          <td>2<sup>&gt;=1</sup>+ 2<sup>&gt;=2</sup>(<em>rest of bits</em>) + value</td>
+          <td>2<sup>&gt;=1</sup>+ 2<sup>&gt;=2</sup>R<sub>i</sub> + C<sub>i</sub></td>
           <td><br>
           </td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td colspan="4" rowspan="1">the first two terms are even, value is odd so we can only remove one lsb.</td>
+          <td colspan="4" rowspan="1">the first two terms are even, C<sub>i</sub> is odd so the combination is odd and we only had one trailing zero.</td>
         </tr>
         <tr>
-          <td>7.</td>
-          <td>(3*value+1)/2</td>
+          <td>6.</td>
+          <td colspan="1" rowspan="5">(3*C<sub>i</sub>+1)/2<br>
+          </td>
           <td>=</td>
-          <td>2<sup>w-1</sup>+ 2<sup>w-1+z</sup>(<em>rest of bits</em>) + value</td>
+          <td>2<sup>w-1</sup>+ 2<sup>w+z-1</sup>R<sub>i</sub> + C<sub>i</sub></td>
           <td>copy step 4</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td><br>
-          </td>
+          
           <td>=</td>
-          <td>2<sup>w-1</sup>+ 2<sup>w-1+z</sup>(<em>rest of bits</em>) +(2<sup>w</sup>-1)+2<sup>w+z</sup>(<em>rest of bits</em>)</td>
-          <td>apply definition of '<em>rest of bits</em>'</td>
+          <td>2<sup>w-1</sup>+ 2<sup>w+z-1</sup>R<sub>i</sub> +(2<sup>w</sup>-1)+2<sup>w+z</sup>R<sub>i</sub></td>
+          <td>apply definition of R<sub>i</sub><em></em></td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td><br>
-          </td>
+          
           <td>=</td>
-          <td>2<sup>w-1</sup>+ 2<sup>w </sup>- 1 + (<em>rest of bits</em>)(2<sup>w-1+z</sup>+2<sup>w+z</sup>)</td>
+          <td>2<sup>w-1</sup>+ 2<sup>w </sup>- 1 + (2<sup>w+z-1</sup>+2<sup>w+z</sup>)R<sub>i</sub></td>
           <td>rearrange</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td><br>
-          </td>
+          
           <td>=</td>
-          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w </sup>+ (<em>rest of bits</em>)(2<sup>w-1+z</sup>+2<sup>w+z</sup>)</td>
-          <td><br>
+          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w </sup>+ (2<sup>w+z-1</sup>+2<sup>w+z</sup>)R<sub>i</sub></td>
+          <td>rearrange<br>
           </td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td><br>
-          </td>
+          
           <td>=</td>
-          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w </sup>+ 2<sup>w-1+z</sup>(<em>rest of bits</em>)(3)</td>
+          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w </sup>+ 2<sup>w+z-1</sup>R<sub>i</sub>3</td>
           <td>factor out a 2<sup>w-1+z </sup>in the final term</td>
         </tr>
-        <tr>
+        
+        
+        
+        
+        <tr><td>7</td><td colspan="4" rowspan="1">if z=1</td></tr><tr>
           <td><br>
-          </td>
-          <td><br>
-          </td>
+          </td><td rowspan="1">(3*C<sub>i</sub>+1)/2</td>
+          
           <td>=</td>
-          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w </sup>+ 2<sup>w-1+z</sup>(odd number)</td>
-          <td>3 and '<em>rest of bits</em>' are both odd so their product is odd</td>
-        </tr>
-        <tr>
-          <td>8.</td>
-          <td>if z is 1</td>
-          <td>=</td>
-          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w </sup>+ 2<sup>w</sup>(odd number)</td>
-          <td><br>
+          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w </sup>+ 2<sup>w+1-1</sup>R<sub>i</sub>3</td>
+          <td>apply z=1 to step 6<br>
           </td>
         </tr>
-        <tr>
+        <tr><td><br></td><td><br></td><td>=</td><td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w </sup>+ 2<sup>w</sup>R<sub>i</sub>3</td><td><br></td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w</sup>(1+R<sub>i</sub>3)</td><td>define K by 2K+1=R<sub>i</sub></td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w</sup>(1+3+6K)</td><td><br></td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w</sup>(4+6K)</td><td><br></td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w</sup>(2(2+3K))</td><td><br></td></tr><tr>
           <td><br>
-          </td>
-          <td><br>
-          </td>
+          </td><td><br></td>
+          
           <td>=</td>
-          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w</sup>(1+odd number)</td>
-          <td><br>
+          <td>(2<sup>w-1</sup>- 1)+&nbsp; 2<sup>w+1</sup>(2+3K)</td>
+          <td>should be able to prove z&gt;=2 ... this only proves there is still a z so w-1 didn't merge with another group<br>
           </td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td colspan="4" rowspan="1">which has w-1 ls ones, then at least two zeroes, maybe more so: <br>
-            the 'w' for a subsequent cycle is one less than that of the prior cycle while the new z is at least 2.</td>
+          <td colspan="4" rowspan="1">which has w-1 ls ones: The 'w' for a subsequent cycle is one less than that of the prior cycle </td>
         </tr>
         <tr>
           <td>9.</td>
-          <td colspan="4" rowspan="1">back to w=1</td>
+          <td colspan="4" rowspan="1">if w=1 (C<sub>i </sub>ends in 01)</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td>(3*value+1)/2</td>
+          <td>(3*C<sub>i</sub>+1)/2</td>
           <td>=</td>
-          <td>1 + 2<sup>z</sup>(<em>rest of bits</em>) + value</td>
-          <td>after the first guaranteed shift</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>1 + 2<sup>z</sup>(<em>rest of bits</em>) + (2<sup>w</sup>-1)+2<sup>w+z</sup>(<em>rest of bits</em>)</td>
-          <td><br>
-          </td>
+          <td>1 + 2<sup>z</sup>R<sub>i</sub> + C<sub>i</sub></td>
+          <td>substitute w=1 in step 4</td>
         </tr>
         <tr>
           <td><br>
@@ -263,18 +189,18 @@ td.number {
           <td><br>
           </td>
           <td>=</td>
-          <td>(2<sup>z</sup>+2<sup>1+z</sup>)(<em>rest of bits</em>) + 2</td>
-          <td><br>
+          <td>1 + 2<sup>z</sup>R<sub>i</sub> + (2<sup>w</sup>-1)+2<sup>w+z</sup>R<sub>i</sub></td>
+          <td>apply step 1<br>
           </td>
         </tr>
-        <tr>
+        <tr><td><br></td><td><br></td><td>=</td><td>1 + 2<sup>z</sup>R<sub>i</sub> + (2<sup>1</sup>-1)+2<sup>1+z</sup>Ri</td><td>apply w=1 again</td></tr><tr>
           <td><br>
           </td>
           <td><br>
           </td>
           <td>=</td>
-          <td>2<sup>z</sup>(1+2)(<em>rest of bits</em>) + 2</td>
-          <td><br>
+          <td>(2<sup>z</sup>+2<sup>1+z</sup>)R<sub>i</sub> + 2</td>
+          <td>collect terms<br>
           </td>
         </tr>
         <tr>
@@ -283,29 +209,39 @@ td.number {
           <td><br>
           </td>
           <td>=</td>
-          <td>2(1+2<sup>z-1</sup>3(<em>rest of bits</em>))</td>
-          <td>the second removable lsb as previously mentioned</td>
+          <td>2<sup>z</sup>(1+2)R<sub>i</sub> + 2</td>
+          <td>factor out 2<sup>Z</sup><br>
+          </td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td style="height: 21.9333px;">(3*value+1)/4</td>
-          <td>=</td>
-          <td>1+2<sup>z-1</sup>3(<em>rest of bits</em>)</td>
           <td><br>
+          </td>
+          <td>=</td>
+          <td>2(1+2<sup>z-1</sup>3R<sub>i</sub>)</td>
+          <td>there is a second removable trailing zero</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td style="height: 21.9333px;">(3*C<sub>i</sub>+1)/4</td>
+          <td>=</td>
+          <td>1+2<sup>z-1</sup>3R<sub>i</sub></td>
+          <td>remove that trailing zero<br>
           </td>
         </tr>
         <tr>
           <td>10.</td>
-          <td colspan="4" rowspan="1">if w=1 and z=1 (value ends in xx101)</td>
+          <td colspan="4" rowspan="1">then if z=1 (C<sub>i</sub> ends in 101)</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td>(3*value+1)/4</td>
+          <td>(3*C<sub>i</sub>+1)/4</td>
           <td>=</td>
-          <td>1+3(<em>rest of bits</em>)</td>
-          <td>'<em>rest of bits</em>' is odd, 3* it is odd, add 1 we have another 2</td>
+          <td>1+3R<sub>i</sub></td>
+          <td>R<sub>i</sub> is odd, 3* it is odd, add 1 we have another 2</td>
         </tr>
         <tr>
           <td><br>
@@ -314,7 +250,7 @@ td.number {
           </td>
           <td>=</td>
           <td>1+3(1+2K)</td>
-          <td>K is '<em>rest of bits</em>' with its lsb removed</td>
+          <td>define K as R<sub>i</sub> with its lsb removed</td>
         </tr>
         <tr>
           <td><br>
@@ -343,12 +279,12 @@ td.number {
           </td>
           <td>=</td>
           <td>2(2+3K)</td>
-          <td>our third removable lsb</td>
+          <td>a third removable trailing zero</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td>(3*value+1)/8</td>
+          <td>(3*C<sub>i</sub>+1)/8</td>
           <td>=</td>
           <td>2+3K</td>
           <td><br>
@@ -357,15 +293,15 @@ td.number {
         <tr>
           <td><br>
           </td>
-          <td colspan="4" rowspan="1">if K is even (value ended in x0101)</td>
+          <td colspan="4" rowspan="1">if K is even (C<sub>i</sub> ended in x0101)</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td>(3*value+1)/8</td>
+          <td>(3*C<sub>i</sub>+1)/8</td>
           <td>=</td>
           <td>2+3(2L)</td>
-          <td><br>
+          <td>K is even so it is 2 *some number, we call that number L<br>
           </td>
         </tr>
         <tr>
@@ -375,27 +311,27 @@ td.number {
           </td>
           <td>=</td>
           <td>2(1+3L)</td>
-          <td>4th removable bit</td>
+          <td>a 4th removable bit</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td>(3*value+1)/16</td>
+          <td>(3*C<sub>i</sub>+1)/16</td>
           <td>=</td>
           <td>1+3L</td>
-          <td>L is '<em>rest of bits</em>' with 2 lsb's removed (an 01 pairing)</td>
+          <td>L is R<sub>i</sub> with 2 lsb's removed (an 01 pairing)</td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td colspan="4" rowspan="1">which brings us back to the first statement in section 10 from which we conclude that we can remove as many lsbs as the number of
-            01 pairs in the trailing bit of the&nbsp; value. xx1101 we remove 1 bit, xx110101 we remove two bits, xx1101010101 we remove 4 bits.</td>
+          <td colspan="4" rowspan="1">which brings us back to an expression like the first statement in section 10 from which we conclude that we get 2 trailing zeroes per each trailing '01' pair in C<sub>i</sub> , in addition to the every-cycle one.<br>
+            xx1101 we remove 3 bits, xx110101 we remove five bits, xx1101010101 we remove 9 bits.</td>
         </tr>
       </tbody>
     </table>
     <br>
-    Section 8 shows that when there are multiple contiguous ones at the trailing part of the value the next value has one fewer contiguous ones. That means that
-    eventually the value will end in 01 in which case section 10 shows how many bits we can remove in a single cycle.<br>
+    Section 8 shows that when there are multiple contiguous ones at the trailing part of the value the next value has one fewer contiguous trailing ones. <br>
+    That means that eventually the value will end in 01 in which case section 10 shows how many bits we can remove in a single cycle.<br>
     <hr><br>
     <br>
     Let us follow a set of ones that has so many zeroes to each side of it that we can ignore them for a few steps.<br>
@@ -1124,5 +1060,6 @@ td.number {
     </table>
     <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600; color:#0000aa;">
       </span><!--EndFragment--></p>
-  </body>
-</html>
+  
+
+</body></html>
