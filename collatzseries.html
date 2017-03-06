@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <title>collatzhistogram</title>
-    <style title="number" type="text/css">
+    <html>
+      <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+        <title>collatzhistogram</title>
+        <style title="number" type="text/css">
 td.number {
   text-align: right;
   font-variant: small-caps;
@@ -12,11 +12,11 @@ td.number {
 
       
 </style></head>
-  <body>
-    <h2>Collatz Series, proof of termination.</h2>
-    An alternate description of the Collatz sequence is: "the next element is one plus 3 times the previous element, then remove the
-    trailing zeroes". Additionally we require the initial value to be odd.<br>
-    <pre>C<sub>0 </sub>is odd<br>C<sub>n+1</sub> = 1+C<sub>n</sub>+2*C<sub>n</sub> , then divide by 2 until the result is odd (discard all factors of 2).</pre>
+      <body>
+        <h2>Collatz Series, proof of termination.</h2>
+        An alternate description of the Collatz sequence is: "the next element is one plus 3 times the previous element, then remove
+        the trailing zeroes". Additionally we require the initial value to be odd.<br>
+        <pre>C<sub>0 </sub>is odd<br>C<sub>n+1</sub> = 1+C<sub>n</sub>+2*C<sub>n</sub> , then divide by 2 until the result is odd (discard all factors of 2).</pre>
     <span size="10">Note for hardware implementation: Multiplying by 3 is achievable by shifting the previous element up one and adding to the unshifted prior value, and the "one plus"
     part achievable by filling the lsb of the shifted number with 1. </span><br>
     <br>
@@ -26,9 +26,9 @@ td.number {
     needed becomes 1.<br>
     <ol>
       <li>The '1+3*' part of each cycle adds at most 2 bits to the number, a multiply by 3 and adding one can at most (and only for one case) increase the number by a factor of 4.</li>
-      <li> Since the number is always odd, multiplying by 3 yields an odd value, adding the one makes the number even and at least one bit is removed each cycle.</li><li>Hence the number of bits need for C<sub>n+1</sub> is at most 1+bits needed for C<sub>n</sub> </li>
+      <li> Since the number is always odd, multiplying by 3 yields an odd value, adding the one makes the number even and at least one bit is removed each cycle.</li><li>Hence the number of bits need for C<sub>n+1</sub> is at most 1+bits needed for C<sub>n</sub></li></ol><p>The following algebra makes extensive use of the identity: w contiguous ones = 2<sup>w</sup>-1.</p><ol>
     </ol>
-    Let there be w contiguous bits in the ls position, and z zeroes between that group and the next one. Both w and z are &gt;=1.<br>
+    Let there be w contiguous bits in the ls position, and z zeroes between that group and the next one. Both w and z are &gt;=1.<br><br>
     <table border="1" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
@@ -326,276 +326,30 @@ td.number {
           </td>
           <td colspan="4" rowspan="1">which brings us back to an expression like the first statement in this section from which we conclude that we get 2 trailing zeroes per each trailing '01' pair in C<sub>i</sub> , in addition to the every-cycle one.<br>
             xx1101 we remove 3 bits, xx110101 we remove five bits, xx1101010101 we remove 9 bits.</td>
-        </tr><tr><td>11.</td><td colspan="4" rowspan="1">w=1, z&gt;1</td></tr><tr><td><br></td><td>(3*C<sub>i</sub>+1)/2</td><td>=</td><td>(2<sup>w+z</sup>+2<sup>w+z-1</sup>)R<sub>i</sub>+ 2<sup>w</sup>+ 2<sup>w-1</sup> - 1</td><td>the everytime bit removed</td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>z+1</sup>+2<sup>z</sup>)R<sub>i</sub> + 2 + 1 - 1</td><td>apply w=1</td></tr><tr><td><br></td><td><br></td><td>=</td><td>2(2<sup>z</sup>+2<sup>z-1</sup>)R<sub>i</sub> + 2</td><td>factor a 2 out of the first term</td></tr><tr><td><br></td><td>(3*C<sub>i</sub>+1)/4</td><td>=</td><td>(2<sup>z</sup>+2<sup>z-1</sup>)R<sub>i </sub>+ 1</td><td>a second bit removed</td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>z</sup>+2<sup>z-1</sup>)(2K+1)<sub> </sub>+ 1</td><td>R<sub>i&nbsp; </sub>is odd</td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>z</sup>+2<sup>z-1</sup>)(2K) +(2<sup>z</sup>+2<sup>z-1</sup>)<sub> </sub>+ 1</td><td>this is divisible by 2 iffi z=2</td></tr><tr><td><br></td><td>w=1,z=2</td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td>(3*C<sub>i</sub>+1)/4</td><td>=</td><td>(2<sup>2</sup>+2<sup>1</sup>)(2K) +(2<sup>2</sup>+2)<sub> </sub>+ 1</td><td><br></td></tr><tr><td><br></td><td><br></td><td>=</td><td>12K+7</td><td><br></td></tr>
+        </tr><tr><td>11.</td><td colspan="4" rowspan="1">w=1, z&gt;1</td></tr><tr><td><br></td><td>(3*C<sub>i</sub>+1)/2</td><td>=</td><td>(2<sup>w+z</sup>+2<sup>w+z-1</sup>)R<sub>i</sub>+ 2<sup>w</sup>+ 2<sup>w-1</sup> - 1</td><td>the everytime bit removed</td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>z+1</sup>+2<sup>z</sup>)R<sub>i</sub> + 2 + 1 - 1</td><td>apply w=1</td></tr><tr><td><br></td><td><br></td><td>=</td><td>2(2<sup>z</sup>+2<sup>z-1</sup>)R<sub>i</sub> + 2</td><td>factor a 2 out of the first term</td></tr><tr><td><br></td><td>(3*C<sub>i</sub>+1)/4</td><td>=</td><td>(2<sup>z</sup>+2<sup>z-1</sup>)R<sub>i </sub>+ 1</td><td>a second bit removed</td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>z</sup>+2<sup>z-1</sup>)(2K+1)<sub> </sub>+ 1</td><td>R<sub>i&nbsp; </sub>is odd</td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>z</sup>+2<sup>z-1</sup>)(2K) +(2<sup>z</sup>+2<sup>z-1</sup>)<sub> </sub>+ 1</td><td><br></td></tr><tr><td><br></td><td>w=1,z=2</td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td>(3*C<sub>i</sub>+1)/4</td><td>=</td><td>(2<sup>2</sup>+2<sup>1</sup>)(2K) +(2<sup>2</sup>+2)<sub> </sub>+ 1</td><td><br></td></tr><tr><td><br></td><td><br></td><td>=</td><td>12K+7</td><td>which is always odd.</td></tr>
       </tbody>
     </table>
-    <br><ol><li>#3: We always remove at least one bit.</li><li>#5: When there are multiple contiguous ones at the trailing part of the value the next value has one fewer contiguous trailing ones.</li><li>#10: Trailing 01 pairs result in 2 bits removed in addition to the mandatory minimal one.</li></ol><p><br></p><hr><br>
-    <br>
-    Let us follow a set of ones that has so many zeroes to each side of it that we can ignore them for a few steps.<br>
-    <br>
-    <table border="1">
-      <tbody id="td.number">
-        <tr>
-          <td><br>
-          </td>
-          <td class="number">11111</td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td class="number"><br>
-          </td>
-          <td class="number">1011101</td>
-          <td>#5's is reduced by 1<br>
-            #3's is increased by 1<br>
-            #1's is increased by 2</td>
-        </tr>
-        <tr>
-          <td class="number"><br>
-          </td>
-          <td class="number">100010111<br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td class="number"><br>
-          </td>
-          <td class="number"><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td class="number"><br>
-          </td>
-          <td class="number"><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td class="number"><br>
-          </td>
-          <td class="number"><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-    There are two special pairs: the most significant one, whose number of zeros is 0 or otherwise irrelevant; and the least significant one, which suffers a subset of
-    the cases that intermediate pairs do. For conciseness I will call the least significant pair the trailing pair, the most significant pair the leading pair. <br>
-    <br>
-    Four values of Ones[] are interesting:<br>
-    <ol>
-      <li>N(1), the number of isolated 1 bits.</li>
-      <li>N(2), the number of isolated pairs of 1 bits.</li>
-      <li> The sum of all remaining N's: Nother.</li>
-      <li>The sum of all of the above: Ntotal.</li>
-    </ol>
-    <p>We will explore how the above numbers change at each step of the sequence. </p>
-    <hr>The finite number of cases is the product of: [1,2,&gt;2] zeroes followed by [1,2,&gt;2] ones followed by [1,2,&gt;2] zeroes. The leading and trailing groups
-    are a subset of these.<br>
-    This breakdown is adequate as multiplying by 3 adds at most 2 bits to a number, a leading 10 can form, adding a 1 (either because it is the trailing group or
-    because the group below it was only spaced off by 1 zero) will not cause a 3rd bit to be needed, at most the leading bits become 11. <br>
-    <br>
-    <hr>First examine groups that have more than 2 zeroes on each side. That means that the group below it will not carry into it, and that it won't carry into the
-    group above.<br>
-    The table below has columns for 1 through 4 ones in a row, and a column for w&gt;2. The 3 and 4 columns demonstrate the pattern expressed by the w&gt;2 column. <br>
-    The 'changes' row show how the counts of 'groups of length n' change.<br>
-    <br>
-    <table border="1">
-      <caption>isolated group </caption>
-      <tbody>
-        <tr>
-          <td>before</td>
-          <td class="number">0001000</td>
-          <td class="number">00011000</td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">000111000</td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">0001111000</td>
-          <td>w&gt;2</td>
-        </tr>
-        <tr>
-          <td>after</td>
-          <td class="number">00110xx</td>
-          <td class="number">010010xx</td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">0101010xx</td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">01011010xx</td>
-          <td>010[w-2]010XX<br>
-          </td>
-        </tr>
-        <tr>
-          <td>changes</td>
-          <td>N1--<br>
-            <br>
-            N2++<br>
-          </td>
-          <td>N2--<br>
-            <br>
-            N1+=2<br>
-          </td>
-          <td style="text-align: right; background-color: #eeeeee;">N3--<br>
-            N1++<br>
-            N1+=2</td>
-          <td style="text-align: right; background-color: #eeeeee;">N4--<br>
-            N2++<br>
-            N1+=2</td>
-          <td>Nw--<br>
-            Nw-2++<br>
-            N1+=2</td>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-    Without a carry in from a lower group the msbs of the group under consideration to the left of the highest 1 are either 01 or 10.<br>
-    <br>
-    If there were instead exactly 2 zeroes trailing our group then the 2 msbs of the lower group would append to the lower side of the original group. The 'adjustments'
-    row in the table below is alterations from the 'changes' row in the table above, the changes to the 'changes' when comparing the tables.<br>
-    <br>
-    <table border="1">
-      <caption>group below has exactly 2 zeroes</caption>
-      <tbody>
-        <tr>
-          <td>after</td>
-          <td class="number">0011xx</td>
-          <td class="number">01001xx</td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">010101xx</td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">0101101xx</td>
-          <td class="number">010[w-2]01XX </td>
-        </tr>
-        <tr>
-          <td>01<br>
-          </td>
-          <td class="number">001101 </td>
-          <td class="number">0100101 </td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">01010101 </td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">010110101 </td>
-          <td class="number">010[w-2]0101 </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td colspan="5" rowspan="1">N counts same as previous table</td>
-        </tr>
-        <tr>
-          <td>10<br>
-          </td>
-          <td class="number">001110 </td>
-          <td class="number">0100110 </td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">01010110 </td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">010110110 </td>
-          <td class="number">010[w-2]0110 </td>
-        </tr>
-        <tr>
-          <td>adjustments</td>
-          <td>N3++<br>
-            N2--<br>
-            N1--</td>
-          <td>N2++<br>
-            <br>
-            N1--</td>
-          <td style="text-align: right; background-color: #eeeeee;">N2++<br>
-            <br>
-            N1--</td>
-          <td style="text-align: right; background-color: #eeeeee;">N2++<br>
-            <br>
-            N1--</td>
-          <td>N2++<br>
-            <br>
-            N1-- </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td colspan="5" rowspan="1">The combo N2++,N1-- above is due to what was a solitary trailing 1<br>
-            &nbsp;merging with the new leading solitary 1 of the trailing group<br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-    If there was only one trailing zero then we get<br>
-    <br>
-    <table border="1">
-      <caption>group below has exactly 1 zero</caption>
-      <tbody>
-        <tr>
-          <td>before</td>
-          <td class="number">0010</td>
-          <td class="number">0110</td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">01110</td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">011110</td>
-          <td class="number">0[w]0 </td>
-        </tr>
-        <tr>
-          <td>3x | 1<br>
-          </td>
-          <td class="number">00111 </td>
-          <td class="number">010011 </td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">0101011 </td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">01011011 </td>
-          <td class="number">010[w-2]011</td>
-        </tr>
-        <tr>
-          <td>adjustments<br>
-          </td>
-          <td colspan="5" rowspan="1">same as 10 group of table for z=2</td>
-        </tr>
-        <tr>
-          <td>3x + 1<br>
-          </td>
-          <td class="number">01000 </td>
-          <td class="number">010100 </td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">0101100 </td>
-          <td style="text-align: right; background-color: #eeeeee;" class="number">01011100 </td>
-          <td class="number">010[w-1]00 </td>
-        </tr>
-        <tr>
-          <td colspan="1" rowspan="2">adjustments<br>
-          </td>
-          <td>N1++<br>
-            <br>
-            N2--</td>
-          <td>same</td>
-          <td style="text-align: right; background-color: #eeeeee;"><br>
-          </td>
-          <td style="text-align: right; background-color: #eeeeee;"><br>
-            <br>
-          </td>
-          <td>Nw-1++ <br>
-            Nw-2--<br>
-            N1-- </td>
-        </tr>
-        <tr>
-          <td colspan="1" rowspan="1">net no <br>
-            change</td>
-          <td colspan="1"><br>
-          </td>
-          <td rowspan="1" colspan="3">Nw-1 instead of Nw-2 and <br>
-            one less additional N1<br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-    Note:<br>
-    <ol>
-      <li>In most cases N1 increase by 1 or 2, when it decreases by one N2 increases by one</li>
-      <li>Nw decreases and Nw-2 or Nw-1 increases, histogram shifts contents towards 1 without decreasing the total above 2</li>
-      <li>N2 increases either at the expense of an N1 or N3 or N4.</li>
-      <li>N2 normally decreases by 1, so most of the increases are not an increase in N total.</li>
-    </ol>
-    <p>Not shown in the case so far is when there is a stream of 101010101 ... either it becomes 1111111 so N(2*r) increases by one while N1 decreases by r or it
-      becomes 100000, and that 1 sometimes appends a higher group to make some Nw-&gt;Nw+1 while N1 decreases by (r+1).</p>
-    So, N total only increases when N1 increases. All other means of increasing Nw requires decreasing 1 other Nw or a bunch of N1's.<br>
-    <br>
-    We haven't proven guaranteed reduction over time.<br>
-    What has been left out is that Z's also mutate, long ones shrinking with the exception of when a 1010101 series becomes 100000. <br>
-    Once we get that figured out we will see that the Z's disappear except for Z1's at a rate that they mate with N1's to become 1010101 which shrink the total number
-    drastically.<br>
-    <br>
+    <br><ol><li>#3: We always remove at least one bit.</li>
+        <li>#5: When there are multiple contiguous ones at the trailing part of the value the next value has one fewer contiguous trailing ones.</li>
+        <li>#10: Trailing 01 pairs result in 2 bits removed in addition to the mandatory minimal one.</li>
+        <li>#11: When there are 2 or more zeroes above a single 1 then 2 trailing bits are removed.</li></ol>
+        <p>For the series to not shrink over time the lsbs must be multiple 1's more than half the time.</p>
+        <hr>Let us look at how a groups of contiguous 1's isolated from the trailing group by various number of zeroes changes over time.<br>
+        <table border="1">
+        <tbody><tr><td>1.</td><td colspan="4">w&gt;1 contiguous ones, followed by 2 or more 0's. </td></tr>
+          <tr><td><br></td><td>R<sub>i</sub> </td><td>=</td><td>(2<sup>w</sup>-1)2<sup>x</sup></td><td>w 1's, lsb at position x</td></tr>
+          <tr><td><br></td><td>3*(R<sub>i</sub>/2<sup>x</sup>)</td><td>=</td><td>(2<sup>w</sup>-1) + (2<sup>w+1</sup>-2)</td><td>no adding 1, since there are 2 or more zeroes in bits x,x-1,x-2 ... </td></tr>
+          <tr><td><br></td><td><br></td><td>=</td><td>2<sup>w+1</sup> + 2<sup>w </sup>- 3</td><td><br></td></tr>
+          <tr><td><br></td><td><br></td><td>=</td><td>2<sup>w+1</sup>+2<sup>w</sup> - 4 + 1</td><td><br></td></tr>
+          <tr><td><br></td><td><br></td><td>=</td><td>2<sup>w+1</sup>+4*2<sup>w-2</sup>- 4 + 1</td><td><br></td></tr>
+          <tr><td><br></td><td><br></td><td>=</td><td>2<sup>w+1</sup>+4(2<sup>w-2</sup>- 1) + 1</td><td><br></td></tr>
+          <tr><td><br></td><td><br></td><td colspan="3">which is a leading 10 a field of w-2 contiguous bit, and a trailing 01</td></tr>
+          <tr><td>2.</td><td colspan="4">w=1</td></tr>
+          <tr><td><br></td><td>R<sub>i</sub></td><td>=</td><td>2<sup>x</sup></td><td><br></td></tr>
+          <tr><td><br></td><td>3*Ri</td><td>=</td><td>3 * 2<sup>x</sup></td><td><br></td></tr>
+          <tr><td><br></td><td><br></td><td>=</td><td>(4 - 1) * 2<sup>x</sup></td><td>equivalent of 1= 2- 1</td></tr><tr><td><br></td><td><br></td><td>=</td><td>(2<sup>2</sup> - 1) * 2<sup>x</sup></td><td>is 2 bits side by side at the original position x.</td></tr></tbody></table>
+        
+        <br><br><hr><br>
     <hr>
     <h4>Appendix I</h4>
     As a warmup exercise we will use these two groups to show that the Collatz sequence is bounded. <br>
@@ -717,472 +471,320 @@ td.number {
     <table border="1" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
-          <td style="text-align: right; vertical-align: top; background-color: white;">
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><!--StartFragment--></p>
-            <p class="number" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">
+          <td style="text-align: right; vertical-align: top;">
+            <p>
               111111111000000000000000000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101111111010000000000000000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100011111011100000000000000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11010111100101000000000000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10100001101011110000000000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1111001010000110100000000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1011010111100100111000000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1000100001101011101010000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 110011001010000101111100001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100110010111100100011101001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11100110001101011010101111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101011001010100001000000111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1000000101111110001100001011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1100001000111101010010010001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1001000110101101111101101101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11011010100001001111001001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10100011111000111011010111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11110101110101011001000011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101110000110000000101100101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1000101001001000001000011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1100111101101100001100101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10011011100100010010011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11101001010110011011101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1010111100000011010011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10000011010000100111101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 110001001110001110111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1001001110101010110011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1101110110000000001101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101001100010000000101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 111110010011000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101110101110010001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100011000010101101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1101001001000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1001110110110001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 111011001000101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1011000101101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100001010001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11000111101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1001010111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1110000011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10101000101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11111101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1011111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10001111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11010111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101000011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 111100101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1011011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10001001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1100111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10011011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11101001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10101111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100000111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 110001011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1001010001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 110111101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10100111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11111011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101111001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100011011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 110101001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100111111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 111011111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1011001111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10000110111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 11001010011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100101111101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1110001111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10101010111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100000000011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 110000000101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1001000001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 110110001</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101000101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 111101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 10111</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 100011</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 110101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 101</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> 1</p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">80 iterations</p>
+            <p> 101111111010000000000000000001</p>
+            <p> 100011111011100000000000000001</p>
+            <p> 11010111100101000000000000001</p>
+            <p> 10100001101011110000000000001</p>
+            <p> 1111001010000110100000000001</p>
+            <p> 1011010111100100111000000001</p>
+            <p> 1000100001101011101010000001</p>
+            <p> 110011001010000101111100001</p>
+            <p> 100110010111100100011101001</p>
+            <p> 11100110001101011010101111</p>
+            <p> 101011001010100001000000111</p>
+            <p> 1000000101111110001100001011</p>
+            <p> 1100001000111101010010010001</p>
+            <p> 1001000110101101111101101101</p>
+            <p> 11011010100001001111001001</p>
+            <p> 10100011111000111011010111</p>
+            <p> 11110101110101011001000011</p>
+            <p> 101110000110000000101100101</p>
+            <p> 1000101001001000001000011</p>
+            <p> 1100111101101100001100101</p>
+            <p> 10011011100100010010011</p>
+            <p> 11101001010110011011101</p>
+            <p> 1010111100000011010011</p>
+            <p> 10000011010000100111101</p>
+            <p> 110001001110001110111</p>
+            <p> 1001001110101010110011</p>
+            <p> 1101110110000000001101</p>
+            <p> 101001100010000000101</p>
+            <p> 111110010011000001</p>
+            <p> 101110101110010001</p>
+            <p> 100011000010101101</p>
+            <p> 1101001001000001</p>
+            <p> 1001110110110001</p>
+            <p> 111011001000101</p>
+            <p> 1011000101101</p>
+            <p> 100001010001</p>
+            <p> 11000111101</p>
+            <p> 1001010111</p>
+            <p> 1110000011</p>
+            <p> 10101000101</p>
+            <p> 11111101</p>
+            <p> 1011111</p>
+            <p> 10001111</p>
+            <p> 11010111</p>
+            <p> 101000011</p>
+            <p> 111100101</p>
+            <p> 1011011</p>
+            <p> 10001001</p>
+            <p> 1100111</p>
+            <p> 10011011</p>
+            <p> 11101001</p>
+            <p> 10101111</p>
+            <p> 100000111</p>
+            <p> 110001011</p>
+            <p> 1001010001</p>
+            <p> 110111101</p>
+            <p> 10100111</p>
+            <p> 11111011</p>
+            <p> 101111001</p>
+            <p> 100011011</p>
+            <p> 110101001</p>
+            <p> 100111111</p>
+            <p> 111011111</p>
+            <p> 1011001111</p>
+            <p> 10000110111</p>
+            <p> 11001010011</p>
+            <p> 100101111101</p>
+            <p> 1110001111</p>
+            <p> 10101010111</p>
+            <p> 100000000011</p>
+            <p> 110000000101</p>
+            <p> 1001000001</p>
+            <p> 110110001</p>
+            <p> 101000101</p>
+            <p> 111101</p>
+            <p> 10111</p>
+            <p> 100011</p>
+            <p> 110101</p>
+            <p> 101</p>
+            <p> 1</p>
+            <p>80 iterations</p>
           </td>
-          <td style="text-align: right; vertical-align: top; background-color: white;">
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">10000000000000000000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100000000000000000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11000000000000000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10010000000000000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1101100000000000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1010001000000000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                111100110000000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                101101100100000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100010001011000000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11001101000010000000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10011001110001100000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1110011010101001000000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1010110011111110110000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1000000110111111000100001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                110000101001111010011001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100100011111011011110011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                110110101111001001101101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10100100001101011101001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1111011001010000101111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10111000101111001000111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100010101000110101101011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                110011111101010000100001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100110111101111100011001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11101001110011101010011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                101011110101101011111101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10000011100001000011111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11000101010001100101111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100100111111010011000111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                110111011110111100101011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1010011001110011011000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                111110011010110100010001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                101110110100000111001101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10001100011100010101101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                110100101010101000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100111011111111110001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11101100111111110101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10110001101111111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100001010100111111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                110001111111011111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1001010111111001111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1110000011110110111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10101000101110010011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11111101000101011101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1011110111010000011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10001110010111000101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11010101100010101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1010000000101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1111000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1011010001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1000011101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11001011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                100110001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11100101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 101011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1000001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 110001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 100101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 111</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 1011</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 10001</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 1101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 101</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> 1</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">62
-                iterations</span></p>
+          <td style="text-align: right; vertical-align: top;">
+            <p>10000000000000000000000000000001</p>
+            <p>
+                100000000000000000000000000001</p>
+            <p>
+                11000000000000000000000000001</p>
+            <p>
+                10010000000000000000000000001</p>
+            <p>
+                1101100000000000000000000001</p>
+            <p>
+                1010001000000000000000000001</p>
+            <p>
+                111100110000000000000000001</p>
+            <p>
+                101101100100000000000000001</p>
+            <p>
+                100010001011000000000000001</p>
+            <p>
+                11001101000010000000000001</p>
+            <p>
+                10011001110001100000000001</p>
+            <p>
+                1110011010101001000000001</p>
+            <p>
+                1010110011111110110000001</p>
+            <p>
+                1000000110111111000100001</p>
+            <p>
+                110000101001111010011001</p>
+            <p>
+                100100011111011011110011</p>
+            <p>
+                110110101111001001101101</p>
+            <p>
+                10100100001101011101001</p>
+            <p>
+                1111011001010000101111</p>
+            <p>
+                10111000101111001000111</p>
+            <p>
+                100010101000110101101011</p>
+            <p>
+                110011111101010000100001</p>
+            <p>
+                100110111101111100011001</p>
+            <p>
+                11101001110011101010011</p>
+            <p>
+                101011110101101011111101</p>
+            <p>
+                10000011100001000011111</p>
+            <p>
+                11000101010001100101111</p>
+            <p>
+                100100111111010011000111</p>
+            <p>
+                110111011110111100101011</p>
+            <p>
+                1010011001110011011000001</p>
+            <p>
+                111110011010110100010001</p>
+            <p>
+                101110110100000111001101</p>
+            <p>
+                10001100011100010101101</p>
+            <p>
+                110100101010101000001</p>
+            <p>
+                100111011111111110001</p>
+            <p>
+                11101100111111110101</p>
+            <p>
+                10110001101111111</p>
+            <p>
+                100001010100111111</p>
+            <p>
+                110001111111011111</p>
+            <p>
+                1001010111111001111</p>
+            <p>
+                1110000011110110111</p>
+            <p>
+                10101000101110010011</p>
+            <p>
+                11111101000101011101</p>
+            <p>
+                1011110111010000011</p>
+            <p>
+                10001110010111000101</p>
+            <p>
+                11010101100010101</p>
+            <p>
+                1010000000101</p>
+            <p>
+                1111000001</p>
+            <p>
+                1011010001</p>
+            <p>
+                1000011101</p>
+            <p>
+                11001011</p>
+            <p>
+                100110001</p>
+            <p>
+                11100101</p>
+            <p> 101011</p>
+            <p>
+                1000001</p>
+            <p> 110001</p>
+            <p> 100101</p>
+            <p> 111</p>
+            <p> 1011</p>
+            <p> 10001</p>
+            <p> 1101</p>
+            <p> 101</p>
+            <p> 1</p>
+            <p>62
+                iterations</p>
           </td>
-          <td>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><!--StartFragment--><span
-style=" font-weight:600; color:#0000aa;"><br>
-              </span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">100:0000:0000:0000:0000:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                11:0000:0000:0000:0000:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                10:0100:0000:0000:0000:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1:1011:0000:0000:0000:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                1:0100:0100:0000:0000:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                :1111:0011:0000:0000:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                :1011:0110:0100:0000:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">
-                :1000:1000:1011:0000:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                110:0110:1000:0100:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                100:1100:1110:0011:0000:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                11:1001:1010:1010:0100:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                10:1011:0011:1111:1011:0000:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                10:0000:0110:1111:1100:0100:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                1:1000:0101:0011:1101:0011:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                1:0010:0011:1110:1101:1110:0101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                11:0110:1011:1100:1001:1011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                101:0010:0001:1010:1110:1001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                11:1101:1001:0100:0010:1111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                101:1100:0101:1110:0100:0111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                :1000:1010:1000:1101:0110:1011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                :1100:1111:1101:0100:0010:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                :1001:1011:1101:1111:0001:1001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                111:0100:1110:0111:0101:0011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                :1010:1111:0101:1010:1111:1101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                100:0001:1100:0010:0001:1111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                110:0010:1010:0011:0010:1111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                :1001:0011:1111:0100:1100:0111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                :1101:1101:1110:1111:0010:1011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                1:0100:1100:1110:0110:1100:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                :1111:1001:1010:1101:0001:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> :
-                :1011:1011:0100:0001:1100:1101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                100:0110:0011:1000:1010:1101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                1:1010:0101:0101:0100:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                1:0011:1011:1111:1111:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                :1110:1100:1111:1111:0101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                1:0110:0011:0111:1111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                10:0001:0101:0011:1111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                11:0001:1111:1101:1111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                100:1010:1111:1100:1111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                111:0000:0111:1011:0111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                :1010:1000:1011:1001:0011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                :1111:1101:0001:0101:1101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                101:1110:1110:1000:0011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : :
-                :1000:1110:0101:1100:0101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                1:1010:1011:0001:0101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : 1:0100:0000:0101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : 11:1100:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : 10:1101:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : 10:0001:1101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : :1100:1011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : 1:0011:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : :1110:0101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : 10:1011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : 100:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : 11:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : 10:0101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : : 111:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : :1011:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : 1:0001:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : :1101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : : 101:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;"> : : :
-                : : : : 1:</span></p>
-            <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span
-style=" color:#000000;">61
-                iterations</span></p>
+          <td style="text-align: right; vertical-align: top;">
+            
+            100:0000:0000:0000:0000:0000:0000:0001<br>
+                11:0000:0000:0000:0000:0000:0000:0001<br>
+            10:0100:0000:0000:0000:0000:0000:0001<br>
+            
+                1:1011:0000:0000:0000:0000:0000:0001<br>
+            
+                1:0100:0100:0000:0000:0000:0000:0001<br>
+            
+                :1111:0011:0000:0000:0000:0000:0001<br>
+            
+                :1011:0110:0100:0000:0000:0000:0001<br>
+            
+                :1000:1000:1011:0000:0000:0000:0001<br>
+                110:0110:1000:0100:0000:0000:0001<br>
+                100:1100:1110:0011:0000:0000:0001<br>
+                <br>11:1001:1010:1010:0100:0000:0001<br>
+            &nbsp;10:1011:0011:1111:1011:0000:0001<br>
+            &nbsp;10:0000:0110:1111:1100:0100:0001
+<br>                1:1000:0101:0011:1101:0011:0001<br>&nbsp;1:0010:0011:1110:1101:1110:0101
+                <br>11:0110:1011:1100:1001:1011<br>101:0010:0001:1010:1110:1001:
+             : :<br>&nbsp;11:1101:1001:0100:0010:1111:
+             : :
+<br>                101:1100:0101:1110:0100:0111:
+             :
+                :<br>1000:1010:1000:1101:0110:1011:
+             :
+                :<br>1100:1111:1101:0100:0010:0001:
+             :
+                :<br>1001:1011:1101:1111:0001:1001:
+             : :<br>&nbsp;111:0100:1110:0111:0101:0011:
+             :
+                :<br>1010:1111:0101:1010:1111:1101:
+             : :
+                <br>100:0001:1100:0010:0001:1111:
+             : :<br>&nbsp;110:0010:1010:0011:0010:1111:
+             :
+                :<br>1001:0011:1111:0100:1100:0111:
+             :
+                :<br>1101:1101:1110:1111:0010:1011:
+             :
+                <br>1:0100:1100:1110:0110:1100:0001:
+             :
+                :<br>1111:1001:1010:1101:0001:0001:
+             :
+                :<br>1011:1011:0100:0001:1100:1101:
+             : :
+<br>                100:0110:0011:1000:1010:1101:
+             : :
+<br>                1:1010:0101:0101:0100:0001:
+             : :<br>&nbsp;1:0011:1011:1111:1111:0001:
+             : :
+                :<br>1110:1100:1111:1111:0101:
+             : : :<br>&nbsp;1:0110:0011:0111:1111:
+             : : :
+<br>                10:0001:0101:0011:1111:
+             : : :
+                <br>11:0001:1111:1101:1111:
+             : : :<br>&nbsp;100:1010:1111:1100:1111:
+             : : :
+<br>                111:0000:0111:1011:0111:
+             : :
+                :<br>1010:1000:1011:1001:0011:
+             : :
+                :<br>1111:1101:0001:0101:1101:
+             : : :
+                <br>101:1110:1110:1000:0011:
+             : :
+                :<br>1000:1110:0101:1100:0101<br>:
+             : : :
+                1:1010:1011:0001:0101<br>:
+             : : :
+                : 1:0100:0000:0101:
+             : : :
+                : : <br>11:1100:0001:
+             : : :
+                : : <br>10:1101:0001:
+             : : :
+                : : <br>10:0001:1101:
+             : : :
+                : : <br>:1100:1011:
+             : : :
+                : <br>: 1:0011:0001:
+             : : :
+                :<br>1110:0101:
+             : : :
+<br>                : : : 10:1011:
+             : : :
+                :<br> 100:0001:
+             : : :
+                <br>: : : 11:0001:
+             : : :<br> 10:0101:
+             : : :
+                :<br> 111:
+             : : :
+                : : <br>: :1011:
+             : :<br>&nbsp;:
+                : : : 1:0001:
+             : : :
+                <br>: : : :1101:
+             : :<br>&nbsp;:
+                : : : : 101:
+             : <br>: :
+                : : : : 1:
+            <br>61
+                iterations
           </td>
         </tr>
       </tbody>
     </table>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600; color:#0000aa;">
-      </span><!--EndFragment--></p>
 </body></html>
